@@ -1,13 +1,14 @@
 {
     "name": "@neuralfog/elemix-renderer",
-    "version": "0.1.0",
+    "version": "0.1.3",
     "license": "MIT",
     "author": "brownhounds",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": ["./dist/**/*"],
     "exports": {
-        ".": "./dist/index.js"
+        ".": "./dist/index.js",
+        "./directives": "./dist/directives.js"
     },
     "scripts": {
         "clean": "rm -rf ./dist",
@@ -15,7 +16,7 @@
         "build-lib": "vite build",
         "build": "npm run clean && npm run build-lib && npm run emit-declarations",
         "lint": "tsc --noEmit && biome format && biome lint",
-        "publish": "npm publish --access public"
+        "release": "npm run clean && npm run build && npm publish --access public"
     },
     "devDependencies": {
         "@neuralfog/biome-config": "0.1.2",
