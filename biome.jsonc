@@ -1,0 +1,3 @@
+{
+    "extends": ["@neuralfog/biome-config/biome"]
+}
