@@ -4,6 +4,7 @@ import { DirectHole } from './holes/attributes/DirectHole';
 import { EventHole } from './holes/attributes/EventHole';
 import { ModelHole } from './holes/attributes/ModelHole';
 import { PropHole } from './holes/attributes/PropHole';
+import { RefHole } from './holes/attributes/RefHole';
 import { StringHole } from './holes/attributes/StringHole';
 import { makeMarkerComment } from './utils';
 
@@ -37,6 +38,11 @@ export const detectAttributes = (
                 result.virtual = true;
                 return result;
             case ':':
+                if (match[1].endsWith(':ref')) {
+                    result.type = Attributes.REF;
+                    result.virtual = true;
+                    return result;
+                }
                 result.type = Attributes.PROP;
                 result.virtual = true;
                 return result;
@@ -80,6 +86,8 @@ export const processAttribute = (
                 return new DirectHole(node, definition);
             case Attributes.MODEL:
                 return new ModelHole(node, definition);
+            case Attributes.REF:
+                return new RefHole(node, definition);
             default:
                 return new StringHole(node, definition);
         }

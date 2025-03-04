@@ -14,7 +14,7 @@ import {
 import type { Hole } from './holes/Hole';
 import type { RenderCache } from './render/ListRenderer';
 import type { AttributeHole } from './holes/attributes/AttributeHole';
-import { Create } from './holes/HoleFactory';
+import { CreateHole } from './holes/HoleFactory';
 
 export class TemplateFragment {
     public holes = new Map<number, Hole | AttributeHole>();
@@ -70,7 +70,7 @@ export class TemplateFragment {
 
             if (node.nodeValue?.includes(TEMPLATE_MARKER_GLYPH)) {
                 const holeIndex = getIndexFromComment(node.nodeValue);
-                const hole = Create(values[holeIndex], node as Comment);
+                const hole = CreateHole(values[holeIndex], node as Comment);
                 this.holes.set(holeIndex, hole);
             }
         }

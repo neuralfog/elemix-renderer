@@ -4,7 +4,7 @@ import { ListHole } from './ListHole';
 import { StringHole } from './StringHole';
 import { TemplateHole } from './TemplateHole';
 
-export const Create = (valueAtIndex: unknown, node: Comment): Hole => {
+export const CreateHole = (valueAtIndex: unknown, node: Comment): Hole => {
     if (Array.isArray(valueAtIndex)) {
         return new ListHole(node);
     }
