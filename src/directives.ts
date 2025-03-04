@@ -1,6 +1,6 @@
 import type { HtmlTemplate } from './HtmlTemplate';
 
-export const repeat = <T extends Record<string | symbol, unknown>>(
+export const repeat = <T = unknown>(
     list: T[],
     key: (val: T, index: number) => string,
     callback: (val: T, index: number) => HtmlTemplate,
