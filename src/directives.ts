@@ -2,12 +2,12 @@ import type { HtmlTemplate } from './HtmlTemplate';
 
 export const repeat = <T = unknown>(
     list: T[],
-    key: (val: T, index: number) => string,
     callback: (val: T, index: number) => HtmlTemplate,
+    key?: (val: T, index: number) => string,
 ): HtmlTemplate[] => {
     return list.map((item, index) => {
         const template = callback(item, index);
-        template.key = key(item, index);
+        template.key = key?.(item, index) || String(index);
         return template;
     });
 };

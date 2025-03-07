@@ -13,10 +13,6 @@ export const makeMarkerComment = (index: number): string => {
     return `<!--${TEMPLATE_MARKER_GLYPH}${index}-->`;
 };
 
-export const fastUID = (): string =>
-    Math.floor(performance.now() * 1000).toString(36) +
-    Math.random().toString(36).slice(2, 6);
-
 export const fixSelfClosingTags = (input: string): string =>
     input.replace(
         /<([a-zA-Z][^\s/>]*)([^>]*)\/>/g,
