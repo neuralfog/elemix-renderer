@@ -106,8 +106,9 @@ export class TemplateFragment {
         this.hydrateAttributes(fragment);
         if (beforeNode) {
             beforeNode.before(fragment);
+        } else {
+            commentNode.before(fragment);
         }
-        commentNode.before(fragment);
 
         const insertedNode = beforeNode
             ? beforeNode.previousSibling
