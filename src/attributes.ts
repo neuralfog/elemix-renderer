@@ -1,6 +1,5 @@
 import { Attributes } from './constants';
 import type { AttributeHole } from './holes/attributes/AttributeHole';
-import { DirectHole } from './holes/attributes/DirectHole';
 import { EventHole } from './holes/attributes/EventHole';
 import { ModelHole } from './holes/attributes/ModelHole';
 import { PropHole } from './holes/attributes/PropHole';
@@ -46,10 +45,6 @@ export const detectAttributes = (
                 result.type = Attributes.PROP;
                 result.virtual = true;
                 return result;
-            case '.':
-                result.type = Attributes.DIRECT;
-                result.virtual = true;
-                return result;
             case '~':
                 if (match[1].startsWith('~model')) {
                     result.type = Attributes.MODEL;
@@ -82,8 +77,6 @@ export const processAttribute = (
                 return new EventHole(node, definition);
             case Attributes.PROP:
                 return new PropHole(node, definition);
-            case Attributes.DIRECT:
-                return new DirectHole(node, definition);
             case Attributes.MODEL:
                 return new ModelHole(node, definition);
             case Attributes.REF:
