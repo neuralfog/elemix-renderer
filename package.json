@@ -1,6 +1,6 @@
 {
     "name": "@neuralfog/elemix-renderer",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "license": "MIT",
     "author": "brownhounds",
     "main": "dist/index.js",
@@ -16,6 +16,7 @@
         "build-lib": "vite build",
         "build": "npm run clean && npm run build-lib && npm run emit-declarations",
         "lint": "tsc --noEmit && biome format && biome lint",
+        "clean-npm": "rm -rf ./node_modules/ && rm -f package-lock.json && npm i",
         "release": "npm run clean && npm run build && npm publish --access public"
     },
     "devDependencies": {
