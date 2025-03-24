@@ -6,6 +6,7 @@ export enum Attributes {
     MODEL = 2,
     STD = 3,
     REF = 4,
+    EMIT = 5,
 }
 
 // developer.mozilla.org/en-US/docs/Glossary/Void_element

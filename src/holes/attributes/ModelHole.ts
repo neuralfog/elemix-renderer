@@ -8,6 +8,8 @@ export class ModelHole implements AttributeHole {
     ) {}
 
     public setValue(value: { value: string }): void {
+        if (value === undefined) return;
+
         const handler = (e: Event): void => {
             value.value = (e.target as HTMLInputElement).value;
         };

@@ -8,6 +8,7 @@ export class RefHole implements AttributeHole {
     ) {}
 
     public setValue(value: { value?: unknown }): void {
+        if (value === undefined) return;
         value.value = this.node;
     }
 }

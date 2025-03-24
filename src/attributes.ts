@@ -1,5 +1,6 @@
 import { Attributes } from './constants';
 import type { AttributeHole } from './holes/attributes/AttributeHole';
+import { EmitHole } from './holes/attributes/EmitHole';
 import { EventHole } from './holes/attributes/EventHole';
 import { ModelHole } from './holes/attributes/ModelHole';
 import { PropHole } from './holes/attributes/PropHole';
@@ -33,6 +34,12 @@ export const detectAttributes = (
 
         switch (match[1][0]) {
             case '@':
+                if (match[1].startsWith('@emits:')) {
+                    result.type = Attributes.EMIT;
+                    result.virtual = true;
+                    return result;
+                }
+
                 result.type = Attributes.EVENT;
                 result.virtual = true;
                 return result;
@@ -64,7 +71,7 @@ export const processAttribute = (
     definition: AttributeDefinition,
 ): AttributeHole | undefined => {
     const node = fragment.querySelector<HTMLElement>(
-        selectorPattern(definition.name, definition.value, definition.virtual),
+        selectorPattern(definition.name, definition.value),
     );
 
     if (node) {
@@ -81,6 +88,8 @@ export const processAttribute = (
                 return new ModelHole(node, definition);
             case Attributes.REF:
                 return new RefHole(node, definition);
+            case Attributes.EMIT:
+                return new EmitHole(node, definition);
             default:
                 return new StringHole(node, definition);
         }
@@ -89,11 +98,25 @@ export const processAttribute = (
     return undefined;
 };
 
-const selectorPattern = (
-    name: string,
-    value: string,
-    isVirtual: boolean,
-): string => {
-    if (isVirtual) return `[\\${name}='${value}']`;
-    return `[${name}='${value}']`;
+const escapeAttributeName = (name: string): string => {
+    let escaped = '';
+    for (let i = 0; i < name.length; i++) {
+        const char = name.charAt(i);
+        const code = char.charCodeAt(0);
+        const isAllowed =
+            (code >= 48 && code <= 57) || // 0-9
+            (code >= 65 && code <= 90) || // A-Z
+            (code >= 97 && code <= 122) || // a-z
+            char === '-' ||
+            char === '_';
+        if (isAllowed) {
+            escaped += char;
+        } else {
+            escaped += `\\${char}`;
+        }
+    }
+    return escaped;
 };
+
+const selectorPattern = (name: string, value: string): string =>
+    `[${escapeAttributeName(name)}='${value}']`;

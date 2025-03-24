@@ -8,6 +8,7 @@ export class StringHole implements AttributeHole {
     ) {}
 
     public setValue(value: unknown): void {
+        if (value === undefined) return;
         this.node.setAttribute(this.definition.name, String(value));
     }
 }

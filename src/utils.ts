@@ -1,4 +1,4 @@
-import { TEMPLATE_MARKER_GLYPH, VOID_ELEMENTS } from './constants';
+import { TEMPLATE_MARKER_GLYPH } from './constants';
 
 export const getIndexFromComment = (comment: string): number => {
     const regex = new RegExp(`${TEMPLATE_MARKER_GLYPH}(\\d+)`);
@@ -9,15 +9,14 @@ export const getIndexFromComment = (comment: string): number => {
     return Number(match[1]);
 };
 
-export const makeMarkerComment = (index: number): string => {
-    return `<!--${TEMPLATE_MARKER_GLYPH}${index}-->`;
-};
+export const makeMarkerComment = (index: number): string =>
+    `<!--${TEMPLATE_MARKER_GLYPH}${index}-->`;
 
 export const fixSelfClosingTags = (input: string): string =>
     input.replace(
-        /<([a-zA-Z][^\s/>]*)([^>]*)\/>/g,
+        /<([a-zA-Z][^\s/>]*)([\s\S]*?)\/>/g,
         (match: string, tagName: string, rest: string) => {
-            if (VOID_ELEMENTS.test(tagName)) {
+            if (!tagName.includes('-')) {
                 return match;
             }
             return `<${tagName}${rest}></${tagName}>`;

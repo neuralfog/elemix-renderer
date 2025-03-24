@@ -47,7 +47,6 @@ export const diff = (
     const newIndices = new Array(newLen);
     const seq = [];
     const posMap = [];
-    // eslint-disable-next-line no-null/no-null
     const newKeys = Object.create(null);
 
     for (i = 0; i < newLen; i++) {

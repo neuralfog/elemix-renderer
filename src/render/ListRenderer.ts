@@ -111,7 +111,6 @@ export class ListRenderer {
     }
 
     public render(values: HtmlTemplate[]): void {
-        // Initial Render
         if (!this.cache.listHtmlTemplate.length) {
             this.renderAllItems(values);
 
@@ -119,7 +118,6 @@ export class ListRenderer {
             return;
         }
 
-        // Empty Incoming List
         if (!values.length) {
             this.emptyList();
 
