@@ -25,3 +25,15 @@ export const fixSelfClosingTags = (input: string): string =>
 
 export const fixAttributeQuotes = (input: string): string =>
     input.replace(/(\S+)=((<!--[\s\S]*?-->)|([^\s">]+))/g, '$1="$2"');
+
+export const camelToKebab = (input: string): string =>
+    // biome-ignore lint:
+    input.replace(/([A-Z])/g, (match) => '-' + match.toLowerCase());
+
+export const mergeClasses = (a: string, b: string): string => {
+    return Array.from(
+        new Set([...a.split(' '), ...b.split(' ')].filter(Boolean)),
+    )
+        .join(' ')
+        .trim();
+};

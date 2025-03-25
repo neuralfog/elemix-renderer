@@ -8,7 +8,8 @@
     "files": ["./dist/**/*"],
     "exports": {
         ".": "./dist/index.js",
-        "./directives": "./dist/directives.js"
+        "./directives": "./dist/directives.js",
+        "./utils": "./dist/utils.js"
     },
     "scripts": {
         "clean": "rm -rf ./dist",
