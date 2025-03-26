@@ -1,6 +1,7 @@
 import { Attributes } from './constants';
 import type { AttributeHole } from './holes/attributes/AttributeHole';
 import { BindAttrsHole } from './holes/attributes/BindAttrsHole';
+import { BindEventsHole } from './holes/attributes/BindEventsHole';
 import { DirectClassHole } from './holes/attributes/DirectClassHole';
 import { EmitHole } from './holes/attributes/EmitHole';
 import { EventHole } from './holes/attributes/EventHole';
@@ -64,11 +65,19 @@ export const detectAttributes = (
                 if (match[1].startsWith('.bind-attrs')) {
                     result.type = Attributes.BIND_ATTRS;
                     result.virtual = true;
+                    return result;
+                }
+
+                if (match[1].startsWith('.bind-events')) {
+                    result.type = Attributes.BIND_EVENTS;
+                    result.virtual = true;
+                    return result;
                 }
 
                 if (match[1].startsWith('.class')) {
                     result.type = Attributes.DIRECT_CLASS;
                     result.virtual = true;
+                    return result;
                 }
 
                 return result;
@@ -108,6 +117,8 @@ export const processAttribute = (
                 return new BindAttrsHole(node, definition);
             case Attributes.DIRECT_CLASS:
                 return new DirectClassHole(node, definition);
+            case Attributes.BIND_EVENTS:
+                return new BindEventsHole(node, definition);
             default:
                 return new StringHole(node, definition);
         }

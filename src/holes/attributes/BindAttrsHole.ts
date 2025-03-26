@@ -13,7 +13,7 @@ export class BindAttrsHole implements AttributeHole {
     }
 
     public setValue(value: unknown): void {
-        if (value === undefined) return;
+        if (value === undefined || value === null) return;
         if (typeof value !== 'object') return;
 
         const { node } = this;

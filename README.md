@@ -27,7 +27,7 @@ For dynamic list updates, the package employs an internal key diffing algorithm 
 Below is an example of how to use the public API to render a dynamic template:
 
 ```typescript
-import { html, render } from 'your-package';
+import { html, render } from '@neauralfog/elemix-renderer';
 
 // Create a template
 const myTemplate = html`<div>Hello, ${userName}! Welcome to Elemix.</div>`;

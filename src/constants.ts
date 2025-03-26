@@ -8,7 +8,8 @@ export enum Attributes {
     REF = 4,
     EMIT = 5,
     BIND_ATTRS = 6,
-    DIRECT_CLASS = 7,
+    BIND_EVENTS = 7,
+    DIRECT_CLASS = 8,
 }
 
 // developer.mozilla.org/en-US/docs/Glossary/Void_element
