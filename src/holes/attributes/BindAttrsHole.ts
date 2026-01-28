@@ -4,6 +4,7 @@ import type { AttributeHole } from './AttributeHole';
 
 export class BindAttrsHole implements AttributeHole {
     private initialClass: string;
+    private lastClass?: string;
 
     constructor(
         public node: HTMLElement,
@@ -27,22 +28,35 @@ export class BindAttrsHole implements AttributeHole {
                 attrValue === null ||
                 attrValue === false
             ) {
-                node.removeAttribute(name);
-                if (this.initialClass.length) {
+                if (node.hasAttribute(name)) {
+                    node.removeAttribute(name);
+                }
+                if (
+                    this.initialClass.length &&
+                    this.lastClass !== this.initialClass
+                ) {
+                    this.lastClass = this.initialClass;
                     node.setAttribute('class', String(this.initialClass));
                 }
                 continue;
             }
 
             if (name === 'class') {
-                node.setAttribute(
-                    'class',
-                    mergeClasses(this.initialClass, String(attrValue)),
+                const next = mergeClasses(
+                    this.initialClass,
+                    String(attrValue),
                 );
+                if (this.lastClass !== next) {
+                    this.lastClass = next;
+                    node.setAttribute('class', next);
+                }
                 continue;
             }
 
-            node.setAttribute(name, String(attrValue));
+            const nextValue = String(attrValue);
+            if (node.getAttribute(name) !== nextValue) {
+                node.setAttribute(name, nextValue);
+            }
         }
     }
 }

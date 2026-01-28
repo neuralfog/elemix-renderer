@@ -20,6 +20,7 @@ export class TemplateFragment {
     public holes = new Map<number, Hole | AttributeHole>();
     private htmlString = '';
     private attributeMap: AttributeDefinition[] = [];
+    private templateElement?: HTMLTemplateElement;
 
     constructor(template: HtmlTemplate) {
         this.parse(template.strings);
@@ -40,9 +41,13 @@ export class TemplateFragment {
     }
 
     private initFragment(): DocumentFragment {
-        const template = document.createElement('template');
-        template.innerHTML = this.htmlString;
-        return template.content;
+        if (!this.templateElement) {
+            const template = document.createElement('template');
+            template.innerHTML = this.htmlString;
+            this.templateElement = template;
+        }
+
+        return this.templateElement.content.cloneNode(true) as DocumentFragment;
     }
 
     private hydrateAttributes(fragment: DocumentFragment): DocumentFragment {
@@ -68,7 +73,7 @@ export class TemplateFragment {
         while (walker.nextNode()) {
             const node = walker.currentNode;
 
-            if (node.nodeValue?.includes(TEMPLATE_MARKER_GLYPH)) {
+            if (node.nodeValue?.startsWith(TEMPLATE_MARKER_GLYPH)) {
                 const holeIndex = getIndexFromComment(node.nodeValue);
                 const hole = CreateHole(values[holeIndex], node as Comment);
                 this.holes.set(holeIndex, hole);

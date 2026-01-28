@@ -4,6 +4,7 @@ import type { AttributeHole } from './AttributeHole';
 
 export class DirectClassHole implements AttributeHole {
     private initialClass: string;
+    private lastClass?: string;
 
     constructor(
         public node: HTMLElement,
@@ -17,15 +18,19 @@ export class DirectClassHole implements AttributeHole {
 
         if (value === undefined || value === null) {
             if (this.initialClass.length) {
-                node.setAttribute('class', String(this.initialClass));
+                if (this.lastClass !== this.initialClass) {
+                    this.lastClass = this.initialClass;
+                    node.setAttribute('class', String(this.initialClass));
+                }
             }
         }
 
         if (typeof value === 'string') {
-            node.setAttribute(
-                'class',
-                mergeClasses(this.initialClass, String(value)),
-            );
+            const next = mergeClasses(this.initialClass, String(value));
+            if (this.lastClass !== next) {
+                this.lastClass = next;
+                node.setAttribute('class', next);
+            }
         }
 
         if (typeof value === 'object') {
@@ -35,10 +40,11 @@ export class DirectClassHole implements AttributeHole {
                 .map(([classNames]) => classNames)
                 .join(' ');
 
-            node.setAttribute(
-                'class',
-                mergeClasses(this.initialClass, classesFromObject),
-            );
+            const next = mergeClasses(this.initialClass, classesFromObject);
+            if (this.lastClass !== next) {
+                this.lastClass = next;
+                node.setAttribute('class', next);
+            }
         }
     }
 }

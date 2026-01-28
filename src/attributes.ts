@@ -127,7 +127,12 @@ export const processAttribute = (
     return undefined;
 };
 
+const escapedNameCache = new Map<string, string>();
+
 const escapeAttributeName = (name: string): string => {
+    const cached = escapedNameCache.get(name);
+    if (cached) return cached;
+
     let escaped = '';
     for (let i = 0; i < name.length; i++) {
         const char = name.charAt(i);
@@ -144,6 +149,7 @@ const escapeAttributeName = (name: string): string => {
             escaped += `\\${char}`;
         }
     }
+    escapedNameCache.set(name, escaped);
     return escaped;
 };
 

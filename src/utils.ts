@@ -1,8 +1,9 @@
 import { TEMPLATE_MARKER_GLYPH } from './constants';
 
+const MARKER_REGEX = new RegExp(`${TEMPLATE_MARKER_GLYPH}(\\d+)`);
+
 export const getIndexFromComment = (comment: string): number => {
-    const regex = new RegExp(`${TEMPLATE_MARKER_GLYPH}(\\d+)`);
-    const match = comment.match(regex);
+    const match = comment.match(MARKER_REGEX);
     if (!match) {
         throw new Error('Unable to extract index from hole comment');
     }

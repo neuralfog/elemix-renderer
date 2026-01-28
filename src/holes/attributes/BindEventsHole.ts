@@ -2,6 +2,8 @@ import type { AttributeDefinition } from '../../attributes';
 import type { AttributeHole } from './AttributeHole';
 
 export class BindEventsHole implements AttributeHole {
+    private lastHandlers = new Map<string, unknown>();
+
     constructor(
         public node: HTMLElement,
         public definition: AttributeDefinition,
@@ -12,6 +14,9 @@ export class BindEventsHole implements AttributeHole {
         if (typeof value !== 'object') return;
 
         for (const [attrName, attrValue] of Object.entries(value)) {
+            const prev = this.lastHandlers.get(attrName);
+            if (prev === attrValue) continue;
+            this.lastHandlers.set(attrName, attrValue);
             (this.node as any)[`on${attrName}`] = attrValue;
         }
     }
